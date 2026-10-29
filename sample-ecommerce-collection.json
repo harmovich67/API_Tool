@@ -1,0 +1,78 @@
+{
+  "info": {
+    "_postman_id": "sample-ecommerce-v21",
+    "name": "E-Commerce Microservices Collection (Sample Test)",
+    "description": "Sample Postman v2.1 JSON Collection to test deep link analysis, variable resolution, JWT inspection, and batch testing.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "apiBase", "value": "https://dummyjson.com" },
+    { "key": "productId", "value": "1" },
+    { "key": "authToken", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Catalog & Products",
+      "item": [
+        {
+          "name": "Get Paginated Products",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{apiBase}}/products?limit=5&skip=0",
+              "host": ["{{apiBase}}"],
+              "path": ["products"],
+              "query": [
+                { "key": "limit", "value": "5" },
+                { "key": "skip", "value": "0" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Single Product Details",
+          "request": {
+            "method": "GET",
+            "url": "{{apiBase}}/products/{{productId}}"
+          }
+        },
+        {
+          "name": "Search Products",
+          "request": {
+            "method": "GET",
+            "url": "{{apiBase}}/products/search?q=phone"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authentication & Carts",
+      "item": [
+        {
+          "name": "Get Current Authenticated User (401 without token)",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{authToken}}" }]
+            },
+            "url": "{{apiBase}}/auth/me"
+          }
+        },
+        {
+          "name": "Create New Cart (POST JSON)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"products\": [\n    { \"id\": 144, \"quantity\": 2 }\n  ]\n}"
+            },
+            "url": "{{apiBase}}/carts/add"
+          }
+        }
+      ]
+    }
+  ]
+}
+
